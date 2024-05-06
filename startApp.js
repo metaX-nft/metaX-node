@@ -9,14 +9,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const usersRouter = require("./routers/user");
-const gameRouter = require("./routers/game");
 const taskRouter = require("./routers/task");
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
 
 app.use("/", usersRouter);
-app.use("/", gameRouter);
 app.use("/", taskRouter);
 
 
@@ -49,7 +47,7 @@ passport.use(
     },
     async function (token, tokenSecret, profile, done) {
       const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
-      return done(null,  { ...profile, ffpId: ffpId.toString() });
+      return done(null, { ...profile, ffpId: ffpId.toString() });
     }
   )
 );
@@ -64,7 +62,7 @@ app.get(
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   async function (req, res) {
     res.redirect("/");
-    console.log("session: " ,req.session);
+    console.log("session: ", req.session);
   }
 );
 
