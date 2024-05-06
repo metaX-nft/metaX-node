@@ -43,7 +43,7 @@ passport.use(
     {
       consumerKey: "06SWJNXD7APY8izpj2npKEVWQ",
       consumerSecret: "2KBJuv1clb9PSuYD87yuJhszefmNvoOpH0pixhH4joCgKNBSaC",
-      callbackURL: "http://127.0.0.1:3000/auth/twitter/callback",
+      callbackURL: "http://3.27.65.65:3000/auth/twitter/callback",
     },
     async function (token, tokenSecret, profile, done) {
       const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
@@ -61,7 +61,7 @@ app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   async function (req, res) {
-    res.redirect("/");
+    res.redirect("//api/v2/task/list");
     console.log("session: ", req.session);
   }
 );
