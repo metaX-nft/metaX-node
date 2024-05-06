@@ -1,8 +1,9 @@
-   name: Node.js CI/CD
+name: Node.js CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+    - '*'
 
 jobs:
   build:
