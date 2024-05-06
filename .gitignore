@@ -1,0 +1,8 @@
+node_modules
+.idea/
+*.log
+node.conf
+tw_post.log
+node.conf
+.env
+.DS_Store
