@@ -57,11 +57,15 @@ app.get("/api/v2/user/login", function (req, res, next) {
   passport.authenticate("twitter")(req, res, next);
 });
 
+app.get("/auth/twitter/success", function (req, res, next) {
+  res.json({ success: true });
+});
+
 app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   async function (req, res) {
-    res.redirect("/api/v2/task/list");
+    res.redirect("/auth/twitter/success");
     console.log("session: ", req.session);
   }
 );
