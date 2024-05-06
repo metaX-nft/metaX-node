@@ -4,5 +4,5 @@ node_modules
 node.conf
 tw_post.log
 node.conf
-.env
+# .env
 .DS_Store
