@@ -13,9 +13,13 @@ const options = {
         url: 'http://localhost:3000',
         description: 'local'
       },
+      {
+        url: 'http://3.27.65.65:3000',
+        description: 'dev'
+      },
     ]
   },
-  apis: ['./routers/*.js'] 
+  apis: ['./routers/*.js']
 };
 
 const specs = swaggerJsdoc(options);

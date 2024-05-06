@@ -61,7 +61,7 @@ app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   async function (req, res) {
-    res.redirect("//api/v2/task/list");
+    res.redirect("/api/v2/task/list");
     console.log("session: ", req.session);
   }
 );
