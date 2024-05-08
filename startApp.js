@@ -10,12 +10,14 @@ const prisma = new PrismaClient();
 
 const usersRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
+const twitterRouter = require("./routers/twitter");
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
 
 app.use("/", usersRouter);
 app.use("/", taskRouter);
+app.use("/", twitterRouter);
 
 
 app.use(
@@ -52,7 +54,7 @@ passport.use(
   )
 );
 
-app.get("/api/v2/user/login", function (req, res, next) {
+app.get("/api/v1/user/login", function (req, res, next) {
   req.session.referrer = req.url;
   passport.authenticate("twitter")(req, res, next);
 });
@@ -61,7 +63,7 @@ app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   async function (req, res) {
-    res.redirect("/api/v2/task/list");
+    res.redirect("/api/v1/task/list");
     console.log("session: ", req.session);
   }
 );

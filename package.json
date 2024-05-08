@@ -16,7 +16,8 @@
     "passport": "^0.7.0",
     "passport-twitter": "^1.0.4",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "twitter-lite": "^1.1.0"
   },
   "devDependencies": {
     "prisma": "^5.13.0"
