@@ -37,7 +37,7 @@ const prisma = new PrismaClient();
  *       500:
  *         description: Internal server error
  */
-app.get('/api/v1/tweets/:id', async (req, res) => {
+router.get('/api/v1/tweets/:id', async (req, res) => {
     try {
         const tweetId = req.params.id;
         const tweet = await client.get(`statuses/show`, { id: tweetId });
@@ -51,3 +51,6 @@ app.get('/api/v1/tweets/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+module.exports = router;

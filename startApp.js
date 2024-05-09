@@ -54,9 +54,9 @@ passport.use(
   )
 );
 
-app.get("/api/v1/user/login", function (req, res, next) {
+app.get("", function (req, res, next) {
   req.session.referrer = req.url;
-  passport.authenticate("twitter")(req, res, next);
+  passport.authenticate("/api/v1/user/logintwitter")(req, res, next);
 });
 
 app.get(
