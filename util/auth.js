@@ -2,10 +2,10 @@ const Twitter = require('twitter-lite');
 
 const client = new Twitter({
     subdomain: "api",
-    consumer_key: "06SWJNXD7APY8izpj2npKEVWQ",
-    consumer_secret: "2KBJuv1clb9PSuYD87yuJhszefmNvoOpH0pixhH4joCgKNBSaC",
-    access_token_key: "1734142761706934272-USYp3uoc9H49lecMf0wziw00Pd2DYa",
-    access_token_secret: "9uSWx2tT2vCwj7I5zCBznofZUA8fQSWMTLNOZLvzXHaXJ"
+    consumer_key: "1oVDvboKJwyNXHieNA2uHzA8y",
+    consumer_secret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
+    access_token_key: "767369479760248833-yeSm00IMMgUJnwX7egeoLzp23qmhXfn",
+    access_token_secret: "uglhmPN5f5YNBeEren1SCamzRsCL1Opb12zUQ3m9Dbeld"
 });
 
 
