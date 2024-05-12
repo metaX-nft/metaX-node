@@ -43,8 +43,8 @@ passport.deserializeUser((obj, done) => {
 passport.use(
   new TwitterStrategy(
     {
-      consumerKey: "06SWJNXD7APY8izpj2npKEVWQ",
-      consumerSecret: "2KBJuv1clb9PSuYD87yuJhszefmNvoOpH0pixhH4joCgKNBSaC",
+      consumerKey: "1oVDvboKJwyNXHieNA2uHzA8y",
+      consumerSecret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
       callbackURL: "http://localhost:3000/auth/twitter/callback",
     },
     async function (token, tokenSecret, profile, done) {
