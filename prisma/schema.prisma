@@ -24,6 +24,7 @@ model Task {
   title String
   template String @default("")
   accountId String @default("")
+  url String @default("")
   timeStamp DateTime @default(now())
 }
 

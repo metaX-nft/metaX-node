@@ -14,6 +14,7 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "template" TEXT NOT NULL DEFAULT '',
     "accountId" TEXT NOT NULL DEFAULT '',
+    "url" TEXT NOT NULL DEFAULT '',
     "timeStamp" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

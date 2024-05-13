@@ -1,9 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const tasks = [
-  { title: "Follow @chainlink", accountId: "63727313" },
-  { title: "Follow @CoinMarketCap", accountId: "483472302" },
-  { title: "Follow @Binance", accountId: "3274824" }
+  { title: "Follow @chainlink", accountId: "63727313", url: "https://twitter.com/chainlink" },
+  { title: "Follow @CoinMarketCap", accountId: "483472302", url: "https://twitter.com/CoinMarketCap" },
+  { title: "Follow @Binance", accountId: "3274824", url: "https://twitter.com/binance" }
 ];
 
 async function main() {
