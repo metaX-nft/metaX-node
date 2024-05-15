@@ -45,7 +45,7 @@ passport.use(
     {
       consumerKey: "1oVDvboKJwyNXHieNA2uHzA8y",
       consumerSecret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
-      callbackURL: "http://localhost:3000/auth/twitter/callback",
+      callbackURL: "http://www.metax-nft.com:3000/auth/twitter/callback",
     },
     async function (token, tokenSecret, profile, done) {
       const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
