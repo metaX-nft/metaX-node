@@ -1,0 +1,12 @@
+### GET request to example server
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "twId": "123456",
+  "pubKey": "somePublicKey",
+  "twName": "John Doe",
+  "avatarUrl": "http://example.com/avatar.jpg"
+}
+
+###
