@@ -80,7 +80,7 @@ app.get(
             // 检查数据库中是否存在具有相同 twId 的用户
             const existingUser = await prisma.user.findFirst({
                 where: {
-                    twId: rawUserData.id,
+                    twId: rawUserData.id_str,
                 },
             });
 
@@ -88,7 +88,7 @@ app.get(
             if (!existingUser) {
                 const newUser = await prisma.user.create({
                     data: {
-                        twId: rawUserData.id,
+                        twId: rawUserData.id_str,
                         twName: rawUserData.name,
                         avatarUrl: rawUserData.profile_image_url_https,
                     },
