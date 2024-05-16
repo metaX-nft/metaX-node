@@ -5,7 +5,7 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const TwitterStrategy = require("passport-twitter").Strategy;
-const { PrismaClient } = require("@prisma/client");
+const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const usersRouter = require("./routers/user");
@@ -14,44 +14,44 @@ const twitterRouter = require("./routers/twitter");
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
-
+app.use(express.json());
 app.use("/", usersRouter);
 app.use("/", taskRouter);
 app.use("/", twitterRouter);
 
 
 app.use(
-  session({
-    secret: "metx_session_384dw",
-    resave: false,
-    saveUninitialized: true,
-    maxAge: 86400000,
-    cookie: { secure: false, sameSite: "Lax" },
-  })
+    session({
+        secret: "metx_session_384dw",
+        resave: false,
+        saveUninitialized: true,
+        maxAge: 86400000,
+        cookie: {secure: false, sameSite: "Lax"},
+    })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser((obj, done) => {
-  done(null, obj);
+    done(null, obj);
 });
 
 passport.use(
-  new TwitterStrategy(
-    {
-      consumerKey: "1oVDvboKJwyNXHieNA2uHzA8y",
-      consumerSecret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
-      callbackURL: "http://www.metax-nft.com:3000/auth/twitter/callback",
-    },
-    async function (token, tokenSecret, profile, done) {
-      const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
-      return done(null, { ...profile, ffpId: ffpId.toString() });
-    }
-  )
+    new TwitterStrategy(
+        {
+            consumerKey: "1oVDvboKJwyNXHieNA2uHzA8y",
+            consumerSecret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
+            callbackURL: "http://54.253.4.207:3000/auth/twitter/callback",
+        },
+        async function (token, tokenSecret, profile, done) {
+            const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
+            return done(null, {...profile, ffpId: ffpId.toString()});
+        }
+    )
 );
 
 // app.get("", function (req, res, next) {
@@ -69,26 +69,39 @@ app.get(
 );
 
 app.get(
-  "/auth/twitter/callback",
-  passport.authenticate("twitter", { failureRedirect: "/login" }),
-  async function (req, res) {
-    res.redirect("/api/v1/task/list");
-    console.log("session: ", req.session);
-  }
+    "/auth/twitter/callback",
+    passport.authenticate("twitter", {failureRedirect: "/login"}),
+    async function (req, res) {
+        res.redirect("/api/v1/task/list");
+        console.log("session: ", req.session);
+
+        const rawUserData = JSON.parse(req.session.passport.user._raw);
+        try {
+            await prisma.user.create({
+                data: {
+                    twId: rawUserData.id,
+                    twName: rawUserData.name,
+                    avatarUrl: rawUserData.profile_image_url_https,
+                },
+            });
+        } catch (error) {
+            console.error('Error creating user:', error);
+        }
+    }
 );
 
 const FFP_PORT = process.env.FFP_PORT;
 app.listen(FFP_PORT, () => {
-  console.log("Server is running on port 3000");
+    console.log("Server is running on port 3000");
 });
 
 async function insert(twId, twName, avatarUrl) {
-  const user = await prisma.user.create({
-    data: {
-      twId: twId,
-      twName: twName,
-      avatarUrl: avatarUrl,
-    },
-  });
-  return user.id;
+    const user = await prisma.user.create({
+        data: {
+            twId: twId,
+            twName: twName,
+            avatarUrl: avatarUrl,
+        },
+    });
+    return user.id;
 }
