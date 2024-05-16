@@ -77,13 +77,26 @@ app.get(
 
         const rawUserData = JSON.parse(req.session.passport.user._raw);
         try {
-            await prisma.user.create({
-                data: {
+            // 检查数据库中是否存在具有相同 twId 的用户
+            const existingUser = await prisma.user.findFirst({
+                where: {
                     twId: rawUserData.id,
-                    twName: rawUserData.name,
-                    avatarUrl: rawUserData.profile_image_url_https,
                 },
             });
+
+            // 如果不存在相同 twId 的用户，则创建新用户
+            if (!existingUser) {
+                const newUser = await prisma.user.create({
+                    data: {
+                        twId: rawUserData.id,
+                        twName: rawUserData.name,
+                        avatarUrl: rawUserData.profile_image_url_https,
+                    },
+                });
+                console.log('New user created:', newUser);
+            } else {
+                console.log('User with the same twId already exists:', existingUser);
+            }
         } catch (error) {
             console.error('Error creating user:', error);
         }
