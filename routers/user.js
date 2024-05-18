@@ -88,6 +88,9 @@ router.get("/users", async (req, res) => {
  *                 id:
  *                   type: integer
  *                   description: The ID of the created user
+ *                 twId:
+ *                   type: string
+ *                   description: The Twitter ID of the user
  *                 pubKey:
  *                   type: string
  *                   description: The public key of the user
@@ -108,12 +111,13 @@ router.get("/users", async (req, res) => {
  */
 router.post('/users/:id', async (req, res) => {
     console.log(req.body);
-    const {pubKey, twName, avatarUrl} = req.body;
+    const {twId, pubKey, twName, avatarUrl} = req.body;
     const id = req.params.id;
     try {
         const newUser = await prisma.user.update({
             where: {id},
             data: {
+                twId,
                 pubKey,
                 twName,
                 avatarUrl,

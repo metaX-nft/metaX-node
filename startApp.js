@@ -72,33 +72,31 @@ app.get(
     "/auth/twitter/callback",
     passport.authenticate("twitter", {failureRedirect: "/login"}),
     async function (req, res) {
-        res.redirect("http://www.metax-nft.com:3000/");
+        res.redirect("/api/v1/task/list");
         console.log("session: ", req.session);
 
         const rawUserData = JSON.parse(req.session.passport.user._raw);
         try {
             // 检查数据库中是否存在具有相同 twId 的用户
-            await prisma.$transaction(async (prisma) => {
-                const existingUser = await prisma.user.findFirst({
-                    where: {
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    twId: rawUserData.id_str,
+                },
+            });
+
+            // 如果不存在相同 twId 的用户，则创建新用户
+            if (!existingUser) {
+                const newUser = await prisma.user.create({
+                    data: {
                         twId: rawUserData.id_str,
+                        twName: rawUserData.name,
+                        avatarUrl: rawUserData.profile_image_url_https,
                     },
                 });
-
-                // 如果不存在相同 twId 的用户，则创建新用户
-                if (!existingUser) {
-                    const newUser = await prisma.user.create({
-                        data: {
-                            twId: rawUserData.id_str,
-                            twName: rawUserData.name,
-                            avatarUrl: rawUserData.profile_image_url_https,
-                        },
-                    });
-                    console.log('New user created:', newUser);
-                } else {
-                    console.log('User with the same twId already exists:', existingUser);
-                }
-            });
+                console.log('New user created:', newUser);
+            } else {
+                console.log('User with the same twId already exists:', existingUser);
+            }
         } catch (error) {
             console.error('Error creating user:', error);
         }

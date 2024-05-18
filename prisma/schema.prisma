@@ -11,39 +11,38 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  twId       String
-  pubKey     String   @default("")
-  twName     String
-  avatarUrl  String
-  taskStatus String
-  timeStamp  DateTime @default(now())
+  id    Int     @id @default(autoincrement())
+  twId String  
+  pubKey String @default("")
+  twName  String
+  avatarUrl String
+  timeStamp DateTime @default(now())
 }
 
 model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  template  String   @default("")
-  accountId String   @default("")
-  url       String   @default("")
+  id    Int     @id @default(autoincrement())
+  title String
+  template String @default("")
+  accountId String @default("")
+  url String @default("")
   timeStamp DateTime @default(now())
 }
 
 model Store {
-  id        Int      @id @default(autoincrement())
-  items     String
-  picUrl    String
-  price     Int
+  id    Int     @id @default(autoincrement())
+  items String
+  picUrl String
+  price Int
   timeStamp DateTime @default(now())
 }
 
 model Seed {
-  id        Int      @id @default(autoincrement())
-  twId      String
-  seedId    String
-  like      Int
-  comment   Int
-  retweet   Int
+  id    Int     @id @default(autoincrement())
+  twId  String
+  seedId String 
+  like  Int
+  comment Int
+  retweet Int
   timeStamp DateTime @default(now())
 }
 

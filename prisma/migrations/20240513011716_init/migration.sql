@@ -5,7 +5,6 @@ CREATE TABLE "User" (
     "pubKey" TEXT NOT NULL DEFAULT '',
     "twName" TEXT NOT NULL,
     "avatarUrl" TEXT NOT NULL,
-    "task_status" TEXT NOT NULL,
     "timeStamp" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
