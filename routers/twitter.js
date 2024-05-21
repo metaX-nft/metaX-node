@@ -45,9 +45,9 @@ router.get('/api/v1/tweets/:id', async (req, res) => {
         const tweetId = req.params.id;
         const tweet = await client.get(`tweets/${tweetId}`,{
             // 你可能想要添加扩展字段来获取更多细节
-            "tweet.fields": "created_at,author_id" // 例如，获取创建时间和作者ID
+            "tweet.fields": "public_metrics" // 例如，获取创建时间和作者ID
         });
-        const likes = tweet.favorite_count;
+        const likes = tweet.like_count;
         const retweets = tweet.retweet_count;
         const replies = tweet.reply_count;
 
