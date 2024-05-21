@@ -19,7 +19,7 @@ model User {
   taskStatus  Int      @default(0)
   token       String
   tokenSecret String
-  seedId      String
+  seedId      String   @default("")
   timeStamp   DateTime @default(now())
 }
 
