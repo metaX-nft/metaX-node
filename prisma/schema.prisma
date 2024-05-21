@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  twId       String
-  pubKey     String   @default("")
-  twName     String
-  avatarUrl  String
-  taskStatus String
-  timeStamp  DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  twId        String
+  pubKey      String   @default("")
+  twName      String
+  avatarUrl   String
+  taskStatus  String
+  token       String
+  tokenSecret String
+  timeStamp   DateTime @default(now())
 }
 
 model Task {

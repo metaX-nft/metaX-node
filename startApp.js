@@ -43,12 +43,13 @@ passport.deserializeUser((obj, done) => {
 passport.use(
     new TwitterStrategy(
         {
-            consumerKey: "1oVDvboKJwyNXHieNA2uHzA8y",
-            consumerSecret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
+            consumerKey: "JJfymSagEPPujpcDt61ubZRqh",
+            consumerSecret: "hXhB1903Bo7cU7BPlpU1B8bQDaWbiuxR14djLCqcpNZjUfIjtA",
             callbackURL: "http://54.253.4.207:3000/auth/twitter/callback",
         },
         async function (token, tokenSecret, profile, done) {
-            const ffpId = await insert(profile.id, profile.displayName, profile.photos[0].value);
+            const ffpId = await insert(token, tokenSecret, profile.id, profile.displayName, profile.photos[0].value);
+            console.log(profile)
             return done(null, {...profile, ffpId: ffpId.toString()});
         }
     )
@@ -74,34 +75,6 @@ app.get(
     async function (req, res) {
         res.redirect("http://www.metax-nft.com:3000/");
         console.log("session: ", req.session);
-
-        const rawUserData = JSON.parse(req.session.passport.user._raw);
-        try {
-            // 检查数据库中是否存在具有相同 twId 的用户
-            await prisma.$transaction(async (prisma) => {
-                const existingUser = await prisma.user.findFirst({
-                    where: {
-                        twId: rawUserData.id_str,
-                    },
-                });
-
-                // 如果不存在相同 twId 的用户，则创建新用户
-                if (!existingUser) {
-                    const newUser = await prisma.user.create({
-                        data: {
-                            twId: rawUserData.id_str,
-                            twName: rawUserData.name,
-                            avatarUrl: rawUserData.profile_image_url_https,
-                        },
-                    });
-                    console.log('New user created:', newUser);
-                } else {
-                    console.log('User with the same twId already exists:', existingUser);
-                }
-            });
-        } catch (error) {
-            console.error('Error creating user:', error);
-        }
     }
 );
 
@@ -110,13 +83,29 @@ app.listen(FFP_PORT, () => {
     console.log("Server is running on port 3000");
 });
 
-async function insert(twId, twName, avatarUrl) {
-    const user = await prisma.user.create({
-        data: {
-            twId: twId,
-            twName: twName,
-            avatarUrl: avatarUrl,
+async function insert(token, tokenSecret, twId, twName, avatarUrl) {
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            twId: rawUserData.id_str,
         },
     });
+    let user;
+    // 如果不存在相同 twId 的用户，则创建新用户
+    if (!existingUser) {
+        const newUser = await prisma.user.create({
+            data: {
+                token,
+                tokenSecret,
+                twId,
+                twName,
+                avatarUrl,
+            },
+        });
+        user = newUser
+        console.log('New user created:', newUser);
+    } else {
+        user = existingUser
+        console.log('User with the same twId already exists:', existingUser);
+    }
     return user.id;
 }

@@ -2,10 +2,13 @@ const Twitter = require('twitter-lite');
 
 const client = new Twitter({
     subdomain: "api",
-    consumer_key: "1oVDvboKJwyNXHieNA2uHzA8y",
-    consumer_secret: "nr4moro1GMw3wDniz7yyw7GTgsi74Oti7D3WfHKbUzelyGhOdk",
-    access_token_key: "767369479760248833-yeSm00IMMgUJnwX7egeoLzp23qmhXfn",
-    access_token_secret: "uglhmPN5f5YNBeEren1SCamzRsCL1Opb12zUQ3m9Dbeld"
+    version: '2',
+    extension: false,
+    consumer_key: "JJfymSagEPPujpcDt61ubZRqh",
+    consumer_secret: "hXhB1903Bo7cU7BPlpU1B8bQDaWbiuxR14djLCqcpNZjUfIjtA",
+    access_token_key: "767369479760248833-x711tV6cTnIIUyUvbAusCrVKRCVx8GT",
+    access_token_secret: "4XbodEceGpuWsXlgHis0OWUCoxJBNihhNpPVnUfePuDgD",
+    bearer_token: "AAAAAAAAAAAAAAAAAAAAAOoGtwEAAAAAFZkBagjanLnPQPiw4tUog%2Bl8gmU%3DPxYtzTsqUEIdZjJdOvE6AxCBe8eNzHId2C8mrJhct5I4eIdSMQ"
 });
 
 

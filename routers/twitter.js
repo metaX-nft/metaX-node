@@ -3,6 +3,7 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const client = require('../util/auth.js');
+const Twitter = require('twitter-lite');
 
 
 /**
@@ -39,9 +40,13 @@ const client = require('../util/auth.js');
  *         description: Internal server error
  */
 router.get('/api/v1/tweets/:id', async (req, res) => {
+
     try {
         const tweetId = req.params.id;
-        const tweet = await client.get(`statuses/show`, { id: tweetId });
+        const tweet = await client.get(`tweets/${tweetId}`,{
+            // 你可能想要添加扩展字段来获取更多细节
+            "tweet.fields": "created_at,author_id" // 例如，获取创建时间和作者ID
+        });
         const likes = tweet.favorite_count;
         const retweets = tweet.retweet_count;
         const replies = tweet.reply_count;
@@ -52,6 +57,36 @@ router.get('/api/v1/tweets/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.post('/api/v1/tweets/postTweet', async (req, res) => {
+    const user = await prisma.user.findFirst({
+        where: {
+            twId: req.body.twId,
+        },
+    });
+    if (!user){
+        res.status(500).json({ error: '用户不存在！' });
+    }
+    const client = new Twitter({
+        version: '2',
+        extension: false,
+        consumer_key: "JJfymSagEPPujpcDt61ubZRqh",
+        consumer_secret: "hXhB1903Bo7cU7BPlpU1B8bQDaWbiuxR14djLCqcpNZjUfIjtA",
+        access_token_key: user.token, // User Access Token
+        access_token_secret: user.tokenSecret // User Access Token Secret
+    });
+    try {
+        const result = await client.post('tweets', {
+            // 包含推文内容的请求体
+            text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'
+        });
+        console.log('Tweet sent:', result.data);
+        res.status(200).json(result.data);
+    } catch (error) {
+        console.error('Error sending tweet:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+})
 
 
 module.exports = router;
