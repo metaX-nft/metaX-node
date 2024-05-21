@@ -70,7 +70,6 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
     }
     const client = new Twitter({
         version: '2',
-        extension: false,
         consumer_key: "JJfymSagEPPujpcDt61ubZRqh",
         consumer_secret: "hXhB1903Bo7cU7BPlpU1B8bQDaWbiuxR14djLCqcpNZjUfIjtA",
         access_token_key: user.token, // User Access Token
