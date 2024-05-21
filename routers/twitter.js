@@ -65,7 +65,8 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
         },
     });
     if (!user){
-        res.status(500).json({ error: '用户不存在！' });
+        res.status(404).json({ error: '用户不存在！' });
+        return
     }
     const client = new Twitter({
         version: '2',
@@ -78,7 +79,8 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
     try {
         const result = await client.post('tweets', {
             // 包含推文内容的请求体
-            text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'
+            // text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'
+            text:"test"
         });
         console.log('Tweet sent:', result.data);
         res.status(200).json(result.data);
