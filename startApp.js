@@ -86,7 +86,7 @@ app.listen(FFP_PORT, () => {
 async function insert(token, tokenSecret, twId, twName, avatarUrl) {
     const existingUser = await prisma.user.findFirst({
         where: {
-            twId: rawUserData.id_str,
+            twId: twId,
         },
     });
     let user;
