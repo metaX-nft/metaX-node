@@ -48,8 +48,8 @@ passport.use(
             callbackURL: "http://54.253.4.207:3000/auth/twitter/callback",
         },
         async function (token, tokenSecret, profile, done) {
+            console.log(profile,token, tokenSecret)
             const ffpId = await insert(token, tokenSecret, profile.id, profile.displayName, profile.photos[0].value);
-            console.log(profile)
             return done(null, {...profile, ffpId: ffpId.toString()});
         }
     )
