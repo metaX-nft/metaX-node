@@ -75,20 +75,14 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
         accessTokenSecret: 'XiUHErB9CCkGRUIVMCdwCwMNke8Fz79iiS7veIvZjuB4D'//user.tokenSecret // User Access Token Secret
     });
     try {
-        const result = await client.v2.user('767369479760248833');
-        console.log('User info:', result.data);
-    } catch (error) {
-        console.error('Error verifying credentials:', error);
+        const result = await client.v2.post('tweets', {text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'}) //
+        console.log('Tweet sent:', result.data);
+        res.status(200).json(result.data);
+    } catch
+        (error) {
+        console.error('Error sending tweet:', error);
+        res.status(500).json({error: 'Internal server error'});
     }
-    // try {
-    //     const result = await client.v2.tweet('Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X') //
-    //     console.log('Tweet sent:', result.data);
-    //     res.status(200).json(result.data);
-    // } catch
-    //     (error) {
-    //     console.error('Error sending tweet:', error);
-    //     res.status(500).json({error: 'Internal server error'});
-    // }
 })
 
 

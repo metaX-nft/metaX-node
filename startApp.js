@@ -11,6 +11,7 @@ const prisma = new PrismaClient();
 const usersRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
 const twitterRouter = require("./routers/twitter");
+const {TwitterApi} = require("twitter-api-v2");
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
@@ -49,6 +50,21 @@ passport.use(
         },
         async function (token, tokenSecret, profile, done) {
             console.log(profile,token, tokenSecret)
+            const client = new TwitterApi({
+                appKey: "6UlhQoiD8PNixSO5Lz27GPvg9",
+                appSecret: "CdBI2p3ppqCspM1NLGk7JcDd7ikAnG1Txf9QqHrPamSMNXkN8c",
+                accessToken: token,//user.token, // User Access Token
+                accessTokenSecret: tokenSecret//user.tokenSecret // User Access Token Secret
+            });
+            try {
+                const result = await client.v2.post('tweets', {text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'}) //
+                console.log('Tweet sent:', result.data);
+                res.status(200).json(result.data);
+            } catch
+                (error) {
+                console.error('Error sending tweet:', error);
+                res.status(500).json({error: 'Internal server error'});
+            }
             const ffpId = await insert(token, tokenSecret, profile.id, profile.displayName, profile.photos[0].value);
             return done(null, {...profile, ffpId: ffpId.toString()});
         }
