@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
+const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 const client = require('../util/auth.js');
-const Twitter = require('twitter-lite');
+const {TwitterApi} = require('twitter-api-v2');
 
 
 /**
@@ -43,7 +43,7 @@ router.get('/api/v1/tweets/:id', async (req, res) => {
 
     try {
         const tweetId = req.params.id;
-        const tweet = await client.get(`tweets/${tweetId}`,{
+        const tweet = await client.get(`tweets/${tweetId}`, {
             // 你可能想要添加扩展字段来获取更多细节
             "tweet.fields": "public_metrics" // 例如，获取创建时间和作者ID
         });
@@ -51,10 +51,10 @@ router.get('/api/v1/tweets/:id', async (req, res) => {
         const retweets = tweet.retweet_count;
         const replies = tweet.reply_count;
 
-        res.status(200).json({ likes, retweets, replies });
+        res.status(200).json({likes, retweets, replies});
     } catch (error) {
         console.error('Error fetching tweet data:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({error: 'Internal server error'});
     }
 });
 
@@ -68,24 +68,21 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
         res.status(404).json({ error: '用户不存在！' });
         return
     }
-    const client = new Twitter({
-        version: '2',
-        consumer_key: "JJfymSagEPPujpcDt61ubZRqh",
-        consumer_secret: "hXhB1903Bo7cU7BPlpU1B8bQDaWbiuxR14djLCqcpNZjUfIjtA",
-        access_token_key: user.token, // User Access Token
-        access_token_secret: user.tokenSecret // User Access Token Secret
+    const client = new TwitterApi({
+        appKey: "6UlhQoiD8PNixSO5Lz27GPvg9",
+        appSecret: "CdBI2p3ppqCspM1NLGk7JcDd7ikAnG1Txf9QqHrPamSMNXkN8c",
+        accessToken: user.token, // User Access Token
+        accessTokenSecret: user.tokenSecret // User Access Token Secret
     });
+
     try {
-        const result = await client.post('tweets', {
-            // 包含推文内容的请求体
-            // text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'
-            text:"test"
-        });
+        const result = await client.v2.tweet('Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X') //
         console.log('Tweet sent:', result.data);
         res.status(200).json(result.data);
-    } catch (error) {
+    } catch
+        (error) {
         console.error('Error sending tweet:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({error: 'Internal server error'});
     }
 })
 
