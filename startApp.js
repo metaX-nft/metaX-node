@@ -73,7 +73,8 @@ app.get(
     "/auth/twitter/callback",
     passport.authenticate("twitter", {failureRedirect: "/login"}),
     async function (req, res) {
-        res.redirect("http://www.metax-nft.com:3000/");
+        const twId = req.user.id;
+        res.redirect(`http://www.metax-nft.com:3000/?twId=${twId}`);
         console.log("session: ", req.session);
     }
 );

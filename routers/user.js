@@ -237,5 +237,47 @@ router.post('/users/updateTaskStatus/:id', async (req, res) => {
         res.status(500).json({error: 'Internal server error'});
     }
 })
+
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: get user profile
+ *     description: Update a user with public key.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The ID of the created user
+ *                 taskStatus:
+ *                   type: string
+ *                   description: The taskStatus of the user
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/users/:twId', async (req, res) => {
+    const twId = req.params.twId;
+    try {
+        const newUser = await prisma.user.findFirst({
+            where: {twId: twId,},
+        });
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+})
 module.exports = router;
 
