@@ -71,8 +71,8 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
     const client = new TwitterApi({
         appKey: "6UlhQoiD8PNixSO5Lz27GPvg9",
         appSecret: "CdBI2p3ppqCspM1NLGk7JcDd7ikAnG1Txf9QqHrPamSMNXkN8c",
-        accessToken: "767369479760248833-cpZXwqapnXXTNOEfwi73jWjzgxTj9y1",//user.token, // User Access Token
-        accessTokenSecret: 'XiUHErB9CCkGRUIVMCdwCwMNke8Fz79iiS7veIvZjuB4D'//user.tokenSecret // User Access Token Secret
+        accessToken: user.token, // User Access Token
+        accessTokenSecret: user.tokenSecret // User Access Token Secret
     });
     try {
         const result = await client.v2.post('tweets', {text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'}) //
