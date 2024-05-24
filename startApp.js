@@ -7,7 +7,7 @@ const session = require("express-session");
 const TwitterStrategy = require("passport-twitter").Strategy;
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
-
+const cors = require('cors');
 const usersRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
 const twitterRouter = require("./routers/twitter");
@@ -39,7 +39,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
     done(null, obj);
 });
-
+app.use(cors());
 passport.use(
     new TwitterStrategy(
         {
