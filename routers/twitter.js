@@ -75,7 +75,7 @@ router.post('/api/v1/tweets/postTweet', async (req, res) => {
         accessTokenSecret: user.tokenSecret // User Access Token Secret
     });
     try {
-        const result = await client.v2.post('tweets', {text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com:3000/! #ChainlinkHackathon #meta.X'}) //
+        const result = await client.v2.post('tweets', {text: 'Excited to be participating in the Chainlink hackathon with our project:meta.X! We appreciate your support and hope you have a wonderful day. Check us out at meta.X:http://www.metax-nft.com/! #ChainlinkHackathon #meta.X'}) //
         console.log('Tweet sent:', result.data);
         res.status(200).json(result.data);
     } catch

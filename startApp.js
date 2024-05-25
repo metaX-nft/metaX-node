@@ -7,12 +7,13 @@ const session = require("express-session");
 const TwitterStrategy = require("passport-twitter").Strategy;
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
-
+const cors = require('cors');
 const usersRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
 const twitterRouter = require("./routers/twitter");
 
 const app = express();
+app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
 app.use(express.json());
 app.use("/", usersRouter);
@@ -74,7 +75,7 @@ app.get(
     passport.authenticate("twitter", {failureRedirect: "/login"}),
     async function (req, res) {
         const twId = req.user.id;
-        res.redirect(`http://www.metax-nft.com:3000/?twId=${twId}`);
+        res.redirect(`http://www.metax-nft.com/?twId=${twId}`);
         console.log("session: ", req.session);
     }
 );
