@@ -40,7 +40,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
     done(null, obj);
 });
-
+app.use(cors());
 passport.use(
     new TwitterStrategy(
         {
