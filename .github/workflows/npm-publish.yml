@@ -22,5 +22,5 @@ jobs:
         run: npm ci
         working-directory: /home/ubuntu/metaX-node
       - name: Restart PM2
-        run: pm2 restart react-app
+        run: pm2 restart metaX-backend
         working-directory: /home/ubuntu/metaX-node
